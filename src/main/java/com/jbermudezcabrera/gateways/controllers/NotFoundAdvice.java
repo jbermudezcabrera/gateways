@@ -1,5 +1,7 @@
 package com.jbermudezcabrera.gateways.controllers;
 
+import com.jbermudezcabrera.gateways.services.DeviceNotFoundException;
+import com.jbermudezcabrera.gateways.services.GatewayNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

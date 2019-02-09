@@ -4,6 +4,8 @@ import com.jbermudezcabrera.gateways.domain.Device;
 import com.jbermudezcabrera.gateways.domain.Gateway;
 import com.jbermudezcabrera.gateways.repositories.DeviceRepository;
 import com.jbermudezcabrera.gateways.repositories.GatewayRepository;
+import com.jbermudezcabrera.gateways.services.DeviceNotFoundException;
+import com.jbermudezcabrera.gateways.services.GatewayNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

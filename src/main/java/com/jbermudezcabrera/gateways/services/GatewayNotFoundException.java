@@ -1,4 +1,4 @@
-package com.jbermudezcabrera.gateways.controllers;
+package com.jbermudezcabrera.gateways.services;
 
 public class GatewayNotFoundException extends RuntimeException {
   public GatewayNotFoundException(Long id) {

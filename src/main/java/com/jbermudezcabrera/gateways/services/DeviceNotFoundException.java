@@ -1,4 +1,4 @@
-package com.jbermudezcabrera.gateways.controllers;
+package com.jbermudezcabrera.gateways.services;
 
 public class DeviceNotFoundException extends RuntimeException {
   public DeviceNotFoundException(Long id) {
