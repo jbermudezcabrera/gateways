@@ -46,6 +46,7 @@ class DeviceController {
                        device.setUid(newDevice.getUid());
                        device.setVendor(newDevice.getVendor());
                        device.setStatus(newDevice.getStatus());
+                       device.setCreated(newDevice.getCreated());
                        return repository.save(device);
                      })
                      .orElseGet(() -> {
