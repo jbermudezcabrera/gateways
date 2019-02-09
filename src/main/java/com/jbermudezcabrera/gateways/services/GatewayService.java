@@ -1,7 +1,7 @@
 package com.jbermudezcabrera.gateways.services;
 
-import com.jbermudezcabrera.gateways.domain.Device;
-import com.jbermudezcabrera.gateways.domain.Gateway;
+import com.jbermudezcabrera.gateways.model.Device;
+import com.jbermudezcabrera.gateways.model.Gateway;
 
 import java.util.List;
 

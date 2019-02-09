@@ -1,8 +1,8 @@
 package com.jbermudezcabrera.gateways;
 
-import com.jbermudezcabrera.gateways.domain.Device;
-import com.jbermudezcabrera.gateways.domain.Gateway;
-import com.jbermudezcabrera.gateways.domain.Status;
+import com.jbermudezcabrera.gateways.model.Device;
+import com.jbermudezcabrera.gateways.model.Gateway;
+import com.jbermudezcabrera.gateways.model.Status;
 import com.jbermudezcabrera.gateways.repositories.GatewayRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

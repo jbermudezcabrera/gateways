@@ -1,7 +1,7 @@
-package com.jbermudezcabrera.gateways.controllers;
+package com.jbermudezcabrera.gateways.web;
 
-import com.jbermudezcabrera.gateways.domain.Device;
-import com.jbermudezcabrera.gateways.domain.Gateway;
+import com.jbermudezcabrera.gateways.model.Device;
+import com.jbermudezcabrera.gateways.model.Gateway;
 import com.jbermudezcabrera.gateways.services.GatewayService;
 import org.springframework.web.bind.annotation.*;
 

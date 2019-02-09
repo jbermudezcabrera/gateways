@@ -1,4 +1,4 @@
-package com.jbermudezcabrera.gateways.controllers;
+package com.jbermudezcabrera.gateways.web;
 
 import com.jbermudezcabrera.gateways.services.DeviceNotFoundException;
 import com.jbermudezcabrera.gateways.services.GatewayNotFoundException;

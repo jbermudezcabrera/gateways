@@ -1,6 +1,6 @@
 package com.jbermudezcabrera.gateways.repositories;
 
-import com.jbermudezcabrera.gateways.domain.Gateway;
+import com.jbermudezcabrera.gateways.model.Gateway;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

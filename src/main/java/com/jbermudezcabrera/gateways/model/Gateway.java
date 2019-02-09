@@ -1,4 +1,4 @@
-package com.jbermudezcabrera.gateways.domain;
+package com.jbermudezcabrera.gateways.model;
 
 import org.springframework.lang.NonNull;
 

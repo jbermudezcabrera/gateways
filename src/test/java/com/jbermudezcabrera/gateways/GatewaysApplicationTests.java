@@ -1,8 +1,8 @@
 package com.jbermudezcabrera.gateways;
 
-import com.jbermudezcabrera.gateways.domain.Device;
-import com.jbermudezcabrera.gateways.domain.Gateway;
-import com.jbermudezcabrera.gateways.domain.Status;
+import com.jbermudezcabrera.gateways.model.Device;
+import com.jbermudezcabrera.gateways.model.Gateway;
+import com.jbermudezcabrera.gateways.model.Status;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

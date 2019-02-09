@@ -1,4 +1,4 @@
-package com.jbermudezcabrera.gateways.domain;
+package com.jbermudezcabrera.gateways.model;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

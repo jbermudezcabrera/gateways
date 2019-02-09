@@ -1,7 +1,7 @@
 package com.jbermudezcabrera.gateways.services.impl;
 
-import com.jbermudezcabrera.gateways.domain.Device;
-import com.jbermudezcabrera.gateways.domain.Gateway;
+import com.jbermudezcabrera.gateways.model.Device;
+import com.jbermudezcabrera.gateways.model.Gateway;
 import com.jbermudezcabrera.gateways.repositories.DeviceRepository;
 import com.jbermudezcabrera.gateways.repositories.GatewayRepository;
 import com.jbermudezcabrera.gateways.services.DeviceNotFoundException;
