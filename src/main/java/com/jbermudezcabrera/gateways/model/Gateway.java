@@ -3,6 +3,7 @@ package com.jbermudezcabrera.gateways.model;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +13,12 @@ public class Gateway {
   @GeneratedValue
   private Long id;
 
+  @NotEmpty
   private String serialNumber;
+
   private String name;
+
+  @IPv4Address
   private String ipv4Address;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "gateway")

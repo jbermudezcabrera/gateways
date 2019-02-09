@@ -3,6 +3,7 @@ package com.jbermudezcabrera.gateways.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -15,6 +16,7 @@ public class Device {
   private String vendor;
   private ZonedDateTime created;
 
+  @NotNull
   @Enumerated(value = EnumType.STRING)
   private Status status;
 

@@ -8,6 +8,7 @@ import com.jbermudezcabrera.gateways.services.DeviceNotFoundException;
 import com.jbermudezcabrera.gateways.services.GatewayNotFoundException;
 import com.jbermudezcabrera.gateways.services.GatewayService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -34,11 +35,14 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Override
   public Gateway create(Gateway gateway) {
+    checkUniqueSerialNumber(gateway.getSerialNumber());
     return repository.save(gateway);
   }
 
   @Override
   public Gateway replace(Gateway newGateway, Long id) {
+    checkUniqueSerialNumber(newGateway.getSerialNumber());
+
     return repository.findById(id)
                      .map(gateway -> {
                        gateway.setName(newGateway.getName());
@@ -74,13 +78,15 @@ public class GatewayServiceImpl implements GatewayService {
   public Device createDevice(Long gatewayId, Device device) {
     Gateway gateway = getGateway(gatewayId);
 
+    checkDevicesLimitNotReached(gateway);
+
     device.setGateway(gateway);
     return deviceRepository.save(device);
   }
 
   @Override
   public Device replaceDevice(Long gatewayId, Device newDevice, Long deviceId) {
-    checkGatewayExists(gatewayId);
+    Gateway gateway = repository.findById(gatewayId).orElseThrow(() -> new GatewayNotFoundException(gatewayId));
 
     return deviceRepository.findById(deviceId)
                            .map(device -> {
@@ -91,7 +97,11 @@ public class GatewayServiceImpl implements GatewayService {
                              return deviceRepository.save(device);
                            })
                            .orElseGet(() -> {
+                             checkDevicesLimitNotReached(gateway);
+
+                             newDevice.setGateway(gateway);
                              newDevice.setId(deviceId);
+
                              return deviceRepository.save(newDevice);
                            });
   }
@@ -114,5 +124,17 @@ public class GatewayServiceImpl implements GatewayService {
   private Gateway getGateway(Long gatewayId) {
     return repository.findById(gatewayId)
                      .orElseThrow(() -> new GatewayNotFoundException(gatewayId));
+  }
+
+  private void checkUniqueSerialNumber(String serialNumber) {
+    if (!StringUtils.isEmpty(serialNumber) && repository.existsBySerialNumber(serialNumber)) {
+      throw new IllegalArgumentException("Serial number must be unique");
+    }
+  }
+
+  private void checkDevicesLimitNotReached(Gateway gateway) {
+    if (gateway.getDevices().size() == 10) {
+      throw new IllegalArgumentException("Only 10 devices are allowed for a gateway.");
+    }
   }
 }

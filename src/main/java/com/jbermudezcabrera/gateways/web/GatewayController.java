@@ -3,6 +3,7 @@ package com.jbermudezcabrera.gateways.web;
 import com.jbermudezcabrera.gateways.model.Device;
 import com.jbermudezcabrera.gateways.model.Gateway;
 import com.jbermudezcabrera.gateways.services.GatewayService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ class GatewayController {
 
   private final GatewayService service;
 
+  @Autowired
   public GatewayController(GatewayService service) {
     this.service = service;
   }
