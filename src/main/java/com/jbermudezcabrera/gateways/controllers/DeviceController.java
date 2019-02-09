@@ -6,6 +6,7 @@ import com.jbermudezcabrera.gateways.repositories.DeviceRepository;
 import com.jbermudezcabrera.gateways.repositories.GatewayRepository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ class DeviceController {
   }
 
   @PostMapping("/devices/{gatewayId}")
-  Device newDevice(@RequestBody Device newDevice, @PathVariable long gatewayId) {
+  Device newDevice(@Valid @RequestBody Device newDevice, @PathVariable long gatewayId) {
     Gateway gateway = gatewayRepository.findById(gatewayId).orElseThrow(() -> new GatewayNotFoundException(gatewayId));
     gateway.addDevice(newDevice);
 
@@ -40,7 +41,7 @@ class DeviceController {
   }
 
   @PutMapping("/devices/{id}")
-  Device replaceDevice(@RequestBody Device newDevice, @PathVariable Long id) {
+  Device replaceDevice(@Valid @RequestBody Device newDevice, @PathVariable Long id) {
     return repository.findById(id)
                      .map(device -> {
                        device.setUid(newDevice.getUid());

@@ -4,6 +4,7 @@ import com.jbermudezcabrera.gateways.domain.Gateway;
 import com.jbermudezcabrera.gateways.repositories.GatewayRepository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ class GatewayController {
   }
 
   @PostMapping("/gateways")
-  Gateway newGateway(@RequestBody Gateway newGateway) {
+  Gateway newGateway(@Valid @RequestBody Gateway newGateway) {
     return repository.save(newGateway);
   }
 
@@ -32,7 +33,7 @@ class GatewayController {
   }
 
   @PutMapping("/gateways/{id}")
-  Gateway replaceGateway(@RequestBody Gateway newGateway, @PathVariable Long id) {
+  Gateway replaceGateway(@Valid @RequestBody Gateway newGateway, @PathVariable Long id) {
     return repository.findById(id)
                      .map(gateway -> {
                        gateway.setName(newGateway.getName());
