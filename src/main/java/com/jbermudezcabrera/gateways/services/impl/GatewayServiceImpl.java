@@ -74,10 +74,8 @@ public class GatewayServiceImpl implements GatewayService {
   public Device createDevice(Long gatewayId, Device device) {
     Gateway gateway = getGateway(gatewayId);
 
-    gateway.addDevice(device);
-    repository.saveAndFlush(gateway);
-
-    return device;
+    device.setGateway(gateway);
+    return deviceRepository.save(device);
   }
 
   @Override

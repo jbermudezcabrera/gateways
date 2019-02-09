@@ -1,5 +1,7 @@
 package com.jbermudezcabrera.gateways.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
@@ -15,6 +17,10 @@ public class Device {
 
   @Enumerated(value = EnumType.STRING)
   private Status status;
+
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Gateway gateway;
 
   public Device() {
     created = ZonedDateTime.now();
@@ -65,5 +71,13 @@ public class Device {
 
   public void setStatus(Status status) {
     this.status = status;
+  }
+
+  public Gateway getGateway() {
+    return gateway;
+  }
+
+  public void setGateway(Gateway gateway) {
+    this.gateway = gateway;
   }
 }

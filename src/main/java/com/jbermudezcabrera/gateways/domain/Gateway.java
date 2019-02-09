@@ -16,7 +16,7 @@ public class Gateway {
   private String name;
   private String ipv4Address;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "gateway")
   private List<Device> devices = new ArrayList<>();
 
   public Long getId() {
@@ -57,9 +57,11 @@ public class Gateway {
 
   public void addDevice(@NonNull Device device) {
     devices.add(device);
+    device.setGateway(this);
   }
 
   public void removeDevice(@NonNull Device device) {
     devices.remove(device);
+    device.setGateway(null);
   }
 }
