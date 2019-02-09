@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Gateway {
@@ -17,7 +17,7 @@ public class Gateway {
   private String ipv4Address;
 
   @OneToMany(cascade = CascadeType.ALL)
-  private Collection<Device> devices = new ArrayList<>();
+  private List<Device> devices = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -51,7 +51,7 @@ public class Gateway {
     this.ipv4Address = ipv4Address;
   }
 
-  public Collection<Device> getDevices() {
+  public List<Device> getDevices() {
     return devices;
   }
 

@@ -1,5 +1,6 @@
 package com.jbermudezcabrera.gateways.controllers;
 
+import com.jbermudezcabrera.gateways.domain.Device;
 import com.jbermudezcabrera.gateways.domain.Gateway;
 import com.jbermudezcabrera.gateways.services.GatewayService;
 import org.springframework.web.bind.annotation.*;
@@ -16,19 +17,21 @@ class GatewayController {
     this.service = service;
   }
 
+  // Gateways management
+
   @GetMapping("/gateways")
-  List<Gateway> all() {
+  List<Gateway> getGateways() {
     return service.getAll();
   }
 
-  @PostMapping("/gateways")
-  Gateway newGateway(@Valid @RequestBody Gateway newGateway) {
-    return service.create(newGateway);
+  @GetMapping("/gateways/{id}")
+  Gateway getGateway(@PathVariable Long id) {
+    return service.getById(id);
   }
 
-  @GetMapping("/gateways/{id}")
-  Gateway one(@PathVariable Long id) {
-    return service.getById(id);
+  @PostMapping("/gateways")
+  Gateway createGateway(@Valid @RequestBody Gateway newGateway) {
+    return service.create(newGateway);
   }
 
   @PutMapping("/gateways/{id}")
@@ -39,5 +42,32 @@ class GatewayController {
   @DeleteMapping("/gateways/{id}")
   void deleteGateway(@PathVariable Long id) {
     service.delete(id);
+  }
+
+  // Gateway's devices management
+
+  @GetMapping("/gateways/{gatewayId}/devices")
+  List<Device> getGatewayDevices(@PathVariable Long gatewayId) {
+    return service.getDevices(gatewayId);
+  }
+
+  @GetMapping("/gateways/{gatewayId}/devices/{id}")
+  Device getGatewayDevice(@PathVariable Long gatewayId, @PathVariable Long id) {
+    return service.getDevice(gatewayId, id);
+  }
+
+  @PostMapping("/gateways/{gatewayId}/devices")
+  Device createGatewayDevice(@Valid @RequestBody Device newDevice, @PathVariable long gatewayId) {
+    return service.createDevice(gatewayId, newDevice);
+  }
+
+  @PutMapping("/gateways/{gatewayId}/devices/{id}")
+  Device replaceGatewayDevice(@Valid @RequestBody Device newDevice, @PathVariable Long gatewayId, @PathVariable Long id) {
+    return service.replaceDevice(gatewayId, newDevice, id);
+  }
+
+  @DeleteMapping("/gateways/{gatewayId}/devices/{id}")
+  void deleteGatewayDevice(@PathVariable Long gatewayId, @PathVariable Long id) {
+    service.deleteDevice(gatewayId, id);
   }
 }
