@@ -21,7 +21,7 @@ public class Device {
   private Status status;
 
   @JsonIgnore
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   private Gateway gateway;
 
   public Device() {

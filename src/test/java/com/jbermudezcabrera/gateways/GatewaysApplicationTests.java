@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GatewaysApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -53,6 +54,70 @@ public class GatewaysApplicationTests {
     Assert.assertNotNull(gateway);
     Assert.assertNotNull(gateway.getId());
     Assert.assertEquals(gateway.getName(), "Sample 2");
+  }
+
+  @Test
+  public void whenCallingCreateGateway_givenDuplicatedSerial_thenClientRespondsError() {
+    // given
+    Gateway newGateway = new Gateway();
+    newGateway.setSerialNumber("01"); // sample gateway's serial number
+    newGateway.setName("Sample with error");
+
+    // when
+    try {
+      client.createGateway(newGateway);
+    } catch (HttpClientErrorException.BadRequest exception) {
+      return;
+    }
+
+    // then
+    Assert.fail("Duplicated serial number can't be accepted");
+  }
+
+  @Test
+  public void whenCallingCreateGateway_givenDevicesLimitReached_thenClientRespondsError() {
+    // given
+    Gateway newGateway = new Gateway();
+    newGateway.setSerialNumber("10");
+    newGateway.setName("Sample with to many devices");
+
+    for (int i = 1; i <= 11; i++) {
+      newGateway.addDevice(new Device(i, "Vendor " + i, Status.OFFLINE));
+    }
+
+    // when
+    try {
+      client.createGateway(newGateway);
+    } catch (HttpClientErrorException.BadRequest exception) {
+      return;
+    }
+
+    // then
+    Assert.fail("Failed to check devices limit");
+  }
+
+  @Test
+  public void whenCallingCreateDevice_givenDevicesLimitReached_thenClientRespondsError() {
+    // given
+    Gateway newGateway = new Gateway();
+    newGateway.setSerialNumber("10");
+    newGateway.setName("Sample with to many devices");
+
+    newGateway = client.createGateway(newGateway);
+
+    for (int i = 1; i <= 10; i++) {
+      client.createDevice(newGateway.getId(), new Device(i, "Vendor " + i, Status.OFFLINE));
+    }
+
+    // when
+    try {
+      client.createDevice(newGateway.getId(), new Device(11, "Device X", Status.ONLINE));
+    } catch (HttpClientErrorException.BadRequest exception) {
+      return;
+    }
+
+    // then
+    Assert.fail("Failed to check devices limit");
   }
 
   @Test

@@ -36,6 +36,7 @@ public class GatewayServiceImpl implements GatewayService {
   @Override
   public Gateway create(Gateway gateway) {
     checkUniqueSerialNumber(gateway.getSerialNumber());
+    checkDevicesLimit(gateway);
     return repository.save(gateway);
   }
 
@@ -51,6 +52,8 @@ public class GatewayServiceImpl implements GatewayService {
                        return repository.save(gateway);
                      })
                      .orElseGet(() -> {
+                       checkDevicesLimit(newGateway);
+
                        newGateway.setId(id);
                        return repository.save(newGateway);
                      });
@@ -132,9 +135,19 @@ public class GatewayServiceImpl implements GatewayService {
     }
   }
 
-  private void checkDevicesLimitNotReached(Gateway gateway) {
-    if (gateway.getDevices().size() == 10) {
-      throw new IllegalArgumentException("Only 10 devices are allowed for a gateway.");
+  private void checkDevicesLimit(Gateway gateway) {
+    if (gateway.getDevices().size() <= 10) {
+      return;
     }
+
+    throw new IllegalArgumentException("Only 10 devices are allowed for a gateway.");
+  }
+
+  private void checkDevicesLimitNotReached(Gateway gateway) {
+    if (gateway.getDevices().size() < 10) {
+      return;
+    }
+
+    throw new IllegalArgumentException("Only 10 devices are allowed for a gateway.");
   }
 }
