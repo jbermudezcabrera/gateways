@@ -1,7 +1,7 @@
 package com.jbermudezcabrera.gateways.services;
 
 public class DeviceNotFoundException extends RuntimeException {
-  public DeviceNotFoundException(Long id) {
-    super("Could not find device " + id);
+  public DeviceNotFoundException(Long id, Long gatewayId) {
+    super(String.format("Could not find device %d in gateway %d", id, gatewayId));
   }
 }

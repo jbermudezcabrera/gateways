@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GatewayRepository extends JpaRepository<Gateway, Long> {
   boolean existsBySerialNumber(String serialNumber);
+
+  boolean existsBySerialNumberAndIdNot(String serialNumber, long id);
 }

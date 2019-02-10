@@ -42,7 +42,7 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Override
   public Gateway replace(Gateway newGateway, Long id) {
-    checkUniqueSerialNumber(newGateway.getSerialNumber());
+    checkUniqueSerialNumber(newGateway.getSerialNumber(), id);
 
     return repository.findById(id)
                      .map(gateway -> {
@@ -71,10 +71,13 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Override
   public Device getDevice(Long gatewayId, Long deviceId) {
-    checkGatewayExists(gatewayId);
+    Gateway gateway = getGateway(gatewayId);
 
-    return deviceRepository.findById(deviceId)
-                           .orElseThrow(() -> new DeviceNotFoundException(deviceId));
+    return gateway.getDevices()
+                  .stream()
+                  .filter(device -> device.getId().equals(deviceId))
+                  .findFirst()
+                  .orElseThrow(() -> new DeviceNotFoundException(deviceId, gatewayId));
   }
 
   @Override
@@ -111,16 +114,22 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Override
   public void deleteDevice(Long gatewayId, Long deviceId) {
-    checkGatewayExists(gatewayId);
+    Gateway gateway = getGateway(gatewayId);
 
-    deviceRepository.deleteById(deviceId);
-  }
+    boolean removed = false;
 
-  private void checkGatewayExists(Long gatewayId) {
-    boolean missingGateway = !repository.existsById(gatewayId);
+    for (Device device : gateway.getDevices().toArray(new Device[0])) {
+      if (device.getId().equals(deviceId)) {
+        gateway.removeDevice(device);
+        removed = true;
+        break;
+      }
+    }
 
-    if (missingGateway) {
-      throw new GatewayNotFoundException(gatewayId);
+    if (removed) {
+      repository.save(gateway);
+    } else {
+      throw new DeviceNotFoundException(deviceId, gatewayId);
     }
   }
 
@@ -131,6 +140,12 @@ public class GatewayServiceImpl implements GatewayService {
 
   private void checkUniqueSerialNumber(String serialNumber) {
     if (!StringUtils.isEmpty(serialNumber) && repository.existsBySerialNumber(serialNumber)) {
+      throw new IllegalArgumentException("Serial number must be unique");
+    }
+  }
+
+  private void checkUniqueSerialNumber(String serialNumber, long excludedId) {
+    if (!StringUtils.isEmpty(serialNumber) && repository.existsBySerialNumberAndIdNot(serialNumber, excludedId)) {
       throw new IllegalArgumentException("Serial number must be unique");
     }
   }
