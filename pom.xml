@@ -12,7 +12,7 @@
 	<artifactId>gateways</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gateways</name>
-	<description>Gateways project for Musala Soft</description>
+	<description>Sample REST API developed with Java and Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
